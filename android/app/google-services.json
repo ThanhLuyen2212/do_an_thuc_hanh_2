@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "669345516162",
+    "project_id": "do-an-thuc-hanh-2",
+    "storage_bucket": "do-an-thuc-hanh-2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:669345516162:android:d22da12181c5fa74f5429b",
+        "android_client_info": {
+          "package_name": "com.example.do_an_thuc_hanh_2"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "669345516162-3ov85srbaffntgmaqnjvn83anq6atrtv.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.do_an_thuc_hanh_2",
+            "certificate_hash": "5504f332a2abe30f5a7d0c42256d294e358b95cb"
+          }
+        },
+        {
+          "client_id": "669345516162-msh3ih3c291kjus3qgdn4vhjinlpeo8v.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB9mnhlL7PP4dtysINRGwXp8vsynoitLmk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "669345516162-msh3ih3c291kjus3qgdn4vhjinlpeo8v.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
