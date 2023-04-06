@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:do_an_thuc_hanh_2/screen/home.dart';
 import 'package:do_an_thuc_hanh_2/screen/home_screen.dart';
 import 'package:do_an_thuc_hanh_2/screen/login_screen.dart';
 import 'package:do_an_thuc_hanh_2/screen/splash_screen.dart';
@@ -25,7 +26,7 @@ class AuthController extends GetxController {
       Get.offAll(() => LoginScreen());
       Get.snackbar('Notification', 'Welcome to loginscreen');
     } else {
-      Get.offAll(() => HomeScreen());
+      Get.offAll(() => const Home());
       Get.snackbar('Notification', 'Welcome to home screen');
     }
   }
@@ -56,7 +57,7 @@ class AuthController extends GetxController {
       if (email.isNotEmpty && password.isNotEmpty) {
         await FirebaseAuth.instance
             .signInWithEmailAndPassword(email: email, password: password);
-        Get.to(() => HomeScreen());
+        Get.to(() => Home());
       } else {
         Get.snackbar('Error login', 'Please enter all the fields');
       }

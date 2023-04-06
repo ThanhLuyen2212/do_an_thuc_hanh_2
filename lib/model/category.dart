@@ -1,19 +1,19 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class Categories {
+class Category {
   String title;
   String image;
 
-  Categories({required this.title, required this.image});
+  Category({required this.title, required this.image});
 
   Map<String, dynamic> toJon() => {
         'title': title,
         'image': image,
       };
 
-  static Categories fromSnap(DocumentSnapshot snap) {
+  static Category fromSnap(DocumentSnapshot snap) {
     var snapshot = snap.data() as Map<String, dynamic>;
-    return Categories(
+    return Category(
       title: snapshot['title'],
       image: snapshot['image'],
     );
