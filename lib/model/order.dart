@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:do_an_thuc_hanh_2/model/cart.dart';
 
 class Order {
   String idOrder;
