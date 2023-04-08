@@ -1,7 +1,9 @@
+import 'package:do_an_thuc_hanh_2/Controller/search_controller.dart';
+import 'package:do_an_thuc_hanh_2/screen/cart_screen.dart';
 import 'package:do_an_thuc_hanh_2/screen/home_screen.dart';
+import 'package:do_an_thuc_hanh_2/screen/profile_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
+import 'package:get/get.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -15,7 +17,10 @@ class _HomeState extends State<Home> {
   var flag = true;
   List<Widget> screen = [
     //screen
-    HomeScreen(),
+    const HomeScreen(),
+    ProfileScreen(),
+    ProfileScreen(),
+    ProfileScreen(),
   ];
   @override
   Widget build(BuildContext context) {
@@ -23,7 +28,19 @@ class _HomeState extends State<Home> {
       backgroundColor: Colors.white,
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        title: flag ? const HomeHeader() : const MenuHeader(),
+        title: !flag ? const MenuHeader() : const HomeHeader(),
+        // actions: [
+        //   IconButton(
+        //     onPressed: () {
+        //       // method to show the search bar
+        //       showSearch(
+        //           context: context,
+        //           // delegate to customize the search bar
+        //           delegate: SearchController());
+        //     },
+        //     icon: const Icon(Icons.search),
+        //   )
+        // ],
       ),
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
@@ -103,15 +120,27 @@ class MenuHeader extends StatelessWidget {
   }
 }
 
-class HomeHeader extends StatelessWidget {
+class HomeHeader extends StatefulWidget {
   const HomeHeader({super.key});
 
+  @override
+  State<HomeHeader> createState() => _HomeHeaderState();
+}
+
+class _HomeHeaderState extends State<HomeHeader> {
   @override
   Widget build(BuildContext context) {
     return Row(
       children: [
-        const Expanded(
+        Expanded(
           child: TextField(
+            readOnly: true,
+            onTap: () {
+              showSearch(
+                  context: context,
+                  // delegate to customize the search bar
+                  delegate: SearchController());
+            },
             decoration: InputDecoration(
               filled: true,
               fillColor: Colors.white,
@@ -122,10 +151,13 @@ class HomeHeader extends StatelessWidget {
                 color: Colors.black54,
               ),
             ),
+            style: TextStyle(color: Colors.black),
           ),
         ),
         GestureDetector(
-          onTap: () {},
+          onTap: () {
+            Get.to(() => CartScreen());
+          },
           child: Container(
             height: 40,
             width: 40,
