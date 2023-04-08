@@ -1,8 +1,9 @@
 import 'package:do_an_thuc_hanh_2/Controller/home_controller.dart';
 import 'package:do_an_thuc_hanh_2/screen/product_detail_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
+import 'package:get/get.dart';
+
+import '../model/product.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
