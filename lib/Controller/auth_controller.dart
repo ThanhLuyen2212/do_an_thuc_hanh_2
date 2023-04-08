@@ -1,8 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:do_an_thuc_hanh_2/screen/home.dart';
-import 'package:do_an_thuc_hanh_2/screen/home_screen.dart';
 import 'package:do_an_thuc_hanh_2/screen/login_screen.dart';
-import 'package:do_an_thuc_hanh_2/screen/splash_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 
@@ -11,6 +9,8 @@ import '../model/myUser.dart';
 class AuthController extends GetxController {
   static AuthController instance = Get.find();
   late Rx<User?> _user;
+
+  User get user => _user.value!;
 
   @override
   void onReady() {
@@ -37,7 +37,7 @@ class AuthController extends GetxController {
         UserCredential cred = await FirebaseAuth.instance
             .createUserWithEmailAndPassword(email: email, password: password);
 
-        myUser user = myUser(name: name, email: email);
+        myUser user = myUser(name: name, email: email, uid: cred.user!.uid);
 
         // push user to firebase auth
         await FirebaseFirestore.instance
@@ -57,12 +57,12 @@ class AuthController extends GetxController {
       if (email.isNotEmpty && password.isNotEmpty) {
         await FirebaseAuth.instance
             .signInWithEmailAndPassword(email: email, password: password);
-        Get.to(() => Home());
+        Get.to(() => const Home());
       } else {
         Get.snackbar('Error login', 'Please enter all the fields');
       }
     } catch (e) {
-      Get.snackbar('Error', e.toString());
+      Get.snackbar('Error Login', e.toString());
     }
   }
 

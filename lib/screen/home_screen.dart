@@ -1,12 +1,14 @@
+import 'package:do_an_thuc_hanh_2/Controller/auth_controller.dart';
 import 'package:do_an_thuc_hanh_2/Controller/home_controller.dart';
 import 'package:do_an_thuc_hanh_2/screen/product_detail_screen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../model/product.dart';
 
 class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
+  HomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -145,106 +147,168 @@ class ProductItem extends StatelessWidget {
 
   ProductItem({super.key, required this.product});
 
+  HomeController productController = Get.put(HomeController());
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        Get.to(ProductDetailScreen(product: product));
-      },
+      // onTap: () {
+      //   Get.to(ProductDetailScreen(product: product));
+      // },
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Image.network(
-            product.image,
-            fit: BoxFit.fitHeight,
+          InkWell(
+            onTap: () {
+              Get.to(ProductDetailScreen(product: product));
+            },
+            child: Image.network(
+              product.image,
+              fit: BoxFit.fitHeight,
+              width: 100,
+              height: 100,
+            ),
           ),
-          Row(
-            children: [
-              Expanded(
-                  child: Text(
-                product.title,
-                style: TextStyle(color: Colors.black),
-              )),
-              Container(
-                padding: const EdgeInsets.all(2),
-                decoration: BoxDecoration(
-                  border: Border.all(color: Colors.white),
-                  borderRadius: BorderRadius.circular(2),
-                  color: Colors.green,
-                ),
-                child: Text(
-                  product.price.toString(),
-                  style: const TextStyle(
-                      color: Colors.white, fontWeight: FontWeight.bold),
-                ),
-              )
-            ],
-          )
+          Text(
+            product.title,
+            style: const TextStyle(
+                color: Colors.black,
+                fontWeight: FontWeight.normal,
+                fontSize: 16),
+          ),
+          Container(
+            padding: const EdgeInsets.all(2),
+            decoration: BoxDecoration(
+              border: Border.all(color: Colors.white),
+              borderRadius: BorderRadius.circular(2),
+              color: Colors.green,
+            ),
+            child: Text(
+              product.price.toString(),
+              style: const TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 14),
+            ),
+          ),
+          // InkWell(
+          //   onTap: () {
+          //     productController.likeProduct(product.idProduct);
+          //   },
+          //   // child: const Icon(
+          //   //   Icons.heart_broken,
+          //   //   color: Colors.red,
+          //   // ),
+          //   child: Icon(
+          //     Icons.favorite,
+          //     size: 30,
+          //     color: (product.likes
+          //             .contains(FirebaseAuth.instance.currentUser!.uid))
+          //         ? Colors.red
+          //         : Colors.black,
+          //   ),
+          // )
+          Likeproduct(product: product)
         ],
       ),
     );
   }
 }
 
-class FavoriteDetail extends StatelessWidget {
-  List<Product> products;
-  FavoriteDetail({super.key, required this.products});
+class Likeproduct extends StatefulWidget {
+  Product product;
+
+  Likeproduct({super.key, required this.product});
 
   @override
-  Widget build(BuildContext context) {
-    return Expanded(
-        child: Container(
-      child: ListView.builder(
-          itemCount: products.length,
-          itemBuilder: (context, index) {
-            return ProductItemList(
-              product: products[index],
-            );
-          }),
-    ));
-  }
+  State<Likeproduct> createState() => _LikeproductState();
 }
 
-class ProductItemList extends StatelessWidget {
-  Product product;
-  ProductItemList({super.key, required this.product});
+class _LikeproductState extends State<Likeproduct> {
+  HomeController productController = Get.put(HomeController());
+  late bool like =
+      widget.product.likes.contains(AuthController.instance.user.uid);
+  void setlike() {
+    productController.likeProduct(widget.product.idProduct);
+    setState(() {
+      like = !like;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Container(
-        child: Row(
-          children: [
-            SizedBox(
-              width: 100,
-              height: 100,
-              child: Image.asset(
-                product.image,
-                fit: BoxFit.fitHeight,
-              ),
-            ),
-            SizedBox(
-              width: 5,
-            ),
-            Expanded(
-                child: SizedBox(
-              height: 100,
-              child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(product.title),
-                    Expanded(
-                        child: Text(
-                      product.description,
-                      maxLines: 5,
-                      overflow: TextOverflow.ellipsis,
-                    ))
-                  ]),
-            ))
-          ],
-        ),
+    return InkWell(
+      onTap: () {
+        setlike();
+      },
+      child: Icon(
+        like ? Icons.favorite : Icons.heart_broken,
+        size: 30,
+        color: like ? Colors.red : Colors.blue,
       ),
     );
   }
 }
+
+// class ProductItemList extends StatelessWidget {
+//   Product product;
+//   ProductItemList({super.key, required this.product});
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Padding(
+//       padding: const EdgeInsets.all(8.0),
+//       child: Container(
+//         child: Row(
+//           children: [
+//             SizedBox(
+//               width: 100,
+//               height: 100,
+//               child: Image.asset(
+//                 product.image,
+//                 fit: BoxFit.fitHeight,
+//               ),
+//             ),
+//             const SizedBox(
+//               width: 5,
+//             ),
+//             Expanded(
+//                 child: SizedBox(
+//               height: 100,
+//               child: Column(
+//                   crossAxisAlignment: CrossAxisAlignment.start,
+//                   children: [
+//                     Text(product.title),
+//                     Expanded(
+//                         child: Text(
+//                       product.description,
+//                       maxLines: 5,
+//                       overflow: TextOverflow.ellipsis,
+//                     ))
+//                   ]),
+//             ))
+//           ],
+//         ),
+//       ),
+//     );
+//   }
+// }
+
+// class FavoriteDetail extends StatelessWidget {
+//   List<Product> products;
+//   FavoriteDetail({super.key, required this.products});
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Expanded(
+//         child: Container(
+//       child: ListView.builder(
+//           itemCount: products.length,
+//           itemBuilder: (context, index) {
+//             return ProductItemList(
+//               product: products[index],
+//             );
+//           }),
+//     ));
+//   }
+// }

@@ -1,4 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:do_an_thuc_hanh_2/Controller/auth_controller.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import '../model/category.dart';
 import '../model/product.dart';
@@ -41,6 +43,21 @@ class HomeController extends GetxController {
       }));
     } catch (e) {
       Get.snackbar("Error while get product", e.toString());
+    }
+  }
+
+  likeProduct(String id) async {
+    DocumentSnapshot doc =
+        await FirebaseFirestore.instance.collection('products').doc(id).get();
+    var uid = AuthController.instance.user.uid;
+    if (((doc.data()! as dynamic)['likes'] as List).contains(uid)) {
+      await FirebaseFirestore.instance.collection('products').doc(id).update({
+        'likes': FieldValue.arrayRemove([uid])
+      });
+    } else {
+      await FirebaseFirestore.instance.collection('products').doc(id).update({
+        'likes': FieldValue.arrayUnion([uid])
+      });
     }
   }
 }

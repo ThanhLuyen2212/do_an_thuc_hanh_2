@@ -1,9 +1,8 @@
 import 'package:do_an_thuc_hanh_2/screen/cart_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:get/get.dart';
-
+import '../Controller/auth_controller.dart';
+import '../Controller/home_controller.dart';
 import '../model/product.dart';
 
 class ProductDetailScreen extends StatelessWidget {
@@ -34,15 +33,24 @@ class ProductDetailScreen extends StatelessWidget {
                 height: 200,
                 child: Image.network(product.image),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
-              Expanded(
-                child: Text(
-                  'Description: ${product.description}',
-                  style: TextStyle(color: Colors.black),
-                ),
-                flex: 1,
+              Row(
+                children: [
+                  Expanded(
+                    child: Text(
+                      'Description: ${product.description}',
+                      style: const TextStyle(color: Colors.black),
+                    ),
+                    flex: 1,
+                  ),
+                  Positioned(
+                    top: 0,
+                    right: 0,
+                    child: Likeproduct(product: product),
+                  ),
+                ],
               ),
               _AddProductToCart(
                 product: product,
@@ -65,14 +73,53 @@ class _AddProductToCart extends StatelessWidget {
       child: ElevatedButton(
         onPressed: () {
           Get.to(() => CartScreen(
-                product: this.product,
+                product: product,
               ));
         },
         style: ElevatedButton.styleFrom(primary: Colors.green),
-        child: Text(
+        child: const Text(
           'Add to cart',
           style: TextStyle(
               fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white),
+        ),
+      ),
+    );
+  }
+}
+
+class Likeproduct extends StatefulWidget {
+  Product product;
+
+  Likeproduct({super.key, required this.product});
+
+  @override
+  State<Likeproduct> createState() => _LikeproductState();
+}
+
+class _LikeproductState extends State<Likeproduct> {
+  HomeController productController = Get.put(HomeController());
+  late bool like =
+      widget.product.likes.contains(AuthController.instance.user.uid);
+  void setlike() {
+    productController.likeProduct(widget.product.idProduct);
+    setState(() {
+      like = !like;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: () {
+        setlike();
+      },
+      child: SizedBox(
+        height: 50,
+        width: 50,
+        child: Icon(
+          like ? Icons.favorite : Icons.heart_broken,
+          size: 40,
+          color: like ? Colors.red : Colors.blue,
         ),
       ),
     );

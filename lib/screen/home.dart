@@ -17,7 +17,7 @@ class _HomeState extends State<Home> {
   var flag = true;
   List<Widget> screen = [
     //screen
-    const HomeScreen(),
+    HomeScreen(),
     ProfileScreen(),
     ProfileScreen(),
     ProfileScreen(),
