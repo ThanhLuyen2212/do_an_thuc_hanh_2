@@ -1,7 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:do_an_thuc_hanh_2/screen/login_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -50,7 +52,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
           ),
           child: Center(
               child: InkWell(
-            onTap: () {},
+            onTap: () {
+              Get.offAll(() => LoginScreen());
+            },
             child: Text(
               'Sign out',
               style: const TextStyle(

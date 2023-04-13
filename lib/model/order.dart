@@ -25,6 +25,7 @@ class Order {
         'address': address,
         'createOnDate': createOnDate,
         'total': total,
+        'money': money,
         'status': status
       };
 
@@ -34,7 +35,7 @@ class Order {
         idOrder: snapshot['idOrder'],
         uid: snapshot['uid'],
         address: snapshot['address'],
-        createOnDate: snapshot['createOnDate'],
+        createOnDate: snapshot['createOnDate'].toDate(),
         total: snapshot['total'],
         money: snapshot['money'],
         status: snapshot['status']);

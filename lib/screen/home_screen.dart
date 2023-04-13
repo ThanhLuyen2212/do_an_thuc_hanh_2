@@ -1,7 +1,6 @@
 import 'package:do_an_thuc_hanh_2/Controller/auth_controller.dart';
 import 'package:do_an_thuc_hanh_2/Controller/home_controller.dart';
 import 'package:do_an_thuc_hanh_2/screen/product_detail_screen.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

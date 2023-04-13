@@ -14,11 +14,10 @@ class AuthController extends GetxController {
 
   @override
   void onReady() {
-    // TODO: implement onReady
     super.onReady();
     _user = Rx<User?>(FirebaseAuth.instance.currentUser);
     _user.bindStream(FirebaseAuth.instance.authStateChanges());
-    ever(_user, _setInitialScreen);
+    ever(_user, _setInitialScreen); // call every time listener change (ever)
   }
 
   _setInitialScreen(User? user) {
