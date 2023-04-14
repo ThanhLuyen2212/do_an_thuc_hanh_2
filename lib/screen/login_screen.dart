@@ -1,5 +1,7 @@
 import 'package:do_an_thuc_hanh_2/screen/signup_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../Controller/auth_controller.dart';
 
@@ -9,8 +11,22 @@ class LoginScreen extends StatelessWidget {
   final _usernameController = TextEditingController();
   final _passwordController = TextEditingController();
 
+  late SharedPreferences prefs;
+
+  getUserNameAndPassword() async {
+    prefs = await SharedPreferences.getInstance();
+    String? username = prefs.getString('username');
+    String? password = prefs.getString('password');
+
+    if (username != null && password != null) {
+      _usernameController.text = username;
+      _passwordController.text = password;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    getUserNameAndPassword();
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: Center(
@@ -70,10 +86,16 @@ class LoginScreen extends StatelessWidget {
                           height: 50,
                           width: MediaQuery.of(context).size.width,
                           child: ElevatedButton(
-                            onPressed: () {
+                            onPressed: () async {
                               AuthController.instance.loginUser(
                                   _usernameController.text,
                                   _passwordController.text);
+                              final SharedPreferences prefs =
+                                  await SharedPreferences.getInstance();
+                              prefs.setString(
+                                  'username', _usernameController.text);
+                              prefs.setString(
+                                  'password', _passwordController.text);
                             },
                             child: const Text(
                               'Continue',

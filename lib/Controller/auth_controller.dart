@@ -3,6 +3,7 @@ import 'package:do_an_thuc_hanh_2/screen/home.dart';
 import 'package:do_an_thuc_hanh_2/screen/login_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../model/myUser.dart';
 
@@ -56,6 +57,7 @@ class AuthController extends GetxController {
       if (email.isNotEmpty && password.isNotEmpty) {
         await FirebaseAuth.instance
             .signInWithEmailAndPassword(email: email, password: password);
+
         Get.to(() => const Home());
       } else {
         Get.snackbar('Error login', 'Please enter all the fields');
