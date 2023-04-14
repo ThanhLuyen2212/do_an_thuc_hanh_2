@@ -1,7 +1,7 @@
 import 'package:do_an_thuc_hanh_2/Controller/nofication_controller.dart';
+import 'package:do_an_thuc_hanh_2/model/order.dart' as order;
+import 'package:do_an_thuc_hanh_2/screen/order_detail_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:get/get.dart';
 
 class NotificationScreen extends StatelessWidget {
@@ -26,31 +26,88 @@ class NotificationScreen extends StatelessWidget {
               child: Obx(
                 () => ListView.builder(
                     shrinkWrap: true,
+                    padding: const EdgeInsets.all(10),
                     itemCount: controller.orderList.length,
                     itemBuilder: (context, index) {
-                      var orderlist = controller.orderList;
-                      if (index % 2 == 0) var bgcolor = Colors.black;
-                      return Container(
-                        color: Colors.red,
-                        width: MediaQuery.of(context).size.width,
-                        margin: const EdgeInsets.all(5),
-                        height: 75,
-                        child: Column(
-                          children: [
-                            Text(
-                              'Đơn hàng thứ $index',
-                              style:
-                                  TextStyle(color: Colors.black, fontSize: 18),
-                              textAlign: TextAlign.center,
+                      List<order.Order> orderlist = controller.orderList;
+                      var bgcolor = Colors.white;
+                      if (index % 2 == 0)
+                        bgcolor = Colors.white;
+                      else
+                        bgcolor = Colors.black12;
+                      return InkWell(
+                        onTap: () {
+                          Get.to(OrderDetailScreen(
+                            order: orderlist[index],
+                            idOrder: orderlist[index].idOrder,
+                          ));
+                        },
+                        child: Container(
+                          color: bgcolor,
+                          width: MediaQuery.of(context).size.width,
+                          margin: const EdgeInsets.all(5),
+                          height: 185,
+                          child: Container(
+                            padding: const EdgeInsets.all(10),
+                            child: Column(
+                              children: [
+                                Text(
+                                  'Đơn hàng thứ $index',
+                                  style: const TextStyle(
+                                      color: Colors.black, fontSize: 18),
+                                  textAlign: TextAlign.center,
+                                ),
+                                const Text(
+                                  'Ngay đặt hàng',
+                                  style: TextStyle(
+                                      color: Colors.black, fontSize: 15),
+                                  textAlign: TextAlign.center,
+                                ),
+                                Text(
+                                  orderlist[index].createOnDate.toString(),
+                                  style: const TextStyle(
+                                      color: Colors.black, fontSize: 15),
+                                  textAlign: TextAlign.center,
+                                ),
+                                const Text(
+                                  'Trang thái',
+                                  style: TextStyle(
+                                      color: Colors.black, fontSize: 15),
+                                  textAlign: TextAlign.center,
+                                ),
+                                Text(
+                                  orderlist[index].status,
+                                  style: const TextStyle(
+                                      color: Colors.black, fontSize: 15),
+                                  textAlign: TextAlign.center,
+                                ),
+                                const Text(
+                                  'Số lượng hàng',
+                                  style: TextStyle(
+                                      color: Colors.black, fontSize: 15),
+                                  textAlign: TextAlign.center,
+                                ),
+                                Text(
+                                  orderlist[index].total.toString(),
+                                  style: const TextStyle(
+                                      color: Colors.black, fontSize: 15),
+                                  textAlign: TextAlign.center,
+                                ),
+                                const Text(
+                                  'Tổng tiền',
+                                  style: TextStyle(
+                                      color: Colors.black, fontSize: 15),
+                                  textAlign: TextAlign.center,
+                                ),
+                                Text(
+                                  orderlist[index].money.toString(),
+                                  style: const TextStyle(
+                                      color: Colors.black, fontSize: 15),
+                                  textAlign: TextAlign.center,
+                                ),
+                              ],
                             ),
-                            Text(
-                              'Ngay đặt hàng',
-                              style:
-                                  TextStyle(color: Colors.black, fontSize: 15),
-                              textAlign: TextAlign.center,
-                            ),
-                            Text('Trang thai $orderlist[index].')
-                          ],
+                          ),
                         ),
                       );
                     }),

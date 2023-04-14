@@ -226,7 +226,7 @@ class Likeproduct extends StatefulWidget {
 class _LikeproductState extends State<Likeproduct> {
   HomeController productController = Get.put(HomeController());
   late bool like =
-      widget.product.likes.contains(AuthController.instance.user.uid);
+      widget.product.likes!.contains(AuthController.instance.user.uid);
   void setlike() {
     productController.likeProduct(widget.product.idProduct);
     setState(() {

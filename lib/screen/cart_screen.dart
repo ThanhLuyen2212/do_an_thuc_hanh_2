@@ -79,7 +79,7 @@ class _BodyCartState extends State<BodyCart> {
                           onTap: () {
                             setState(() {
                               // cartdetails.removeAt(index);
-                              Cart.removeProduct(cartdetails[index].product);
+                              Cart.removeProduct(cartdetails[index].product!);
 
                               // giá sản phẩm
                               sumMoney = Cart.sumMoney();

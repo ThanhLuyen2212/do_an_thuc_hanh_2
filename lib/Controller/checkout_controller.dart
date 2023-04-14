@@ -16,7 +16,7 @@ class CheckoutController extends GetxController {
 
     // add information of order
     od.Order order = od.Order(
-        idOrder: 'orders $len',
+        idOrder: 'order $len',
         uid: FirebaseAuth.instance.currentUser!.uid,
         address: address,
         createOnDate: DateTime.now(),
@@ -37,7 +37,7 @@ class CheckoutController extends GetxController {
     for (int i = 0; i < cart.length; i++) {
       OrderDetail orderDetail = OrderDetail(
           idOrder: 'order $len',
-          idProduct: cart[i].product.idProduct.toString(),
+          idProduct: cart[i].product!.idProduct.toString(),
           number: cart[i].number);
       await FirebaseFirestore.instance
           .collection('orders')

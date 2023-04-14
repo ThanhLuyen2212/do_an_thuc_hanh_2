@@ -6,13 +6,13 @@ class Product {
   String description;
   String image;
   int price;
-  List likes;
+  List? likes;
 
   Product(
       {required this.idProduct,
       required this.title,
       required this.description,
-      required this.likes,
+      this.likes,
       required this.image,
       required this.price});
 
