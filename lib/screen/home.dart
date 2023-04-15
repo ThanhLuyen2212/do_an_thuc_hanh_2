@@ -65,13 +65,16 @@ class _HomeState extends State<Home> {
         ],
       ),
       body: SafeArea(
-        child: Column(
-          children: [
-            const SizedBox(
-              height: 10,
-            ),
-            screen[selectindex]
-          ],
+        child: Container(
+          width: MediaQuery.of(context).size.width,
+          child: Column(
+            children: [
+              const SizedBox(
+                height: 10,
+              ),
+              screen[selectindex]
+            ],
+          ),
         ),
       ),
     );

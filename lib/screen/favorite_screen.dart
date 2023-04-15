@@ -15,7 +15,7 @@ class FavoriteScreen extends StatelessWidget {
     return SingleChildScrollView(
       child: Container(
         width: MediaQuery.of(context).size.width,
-        height: 500,
+        height: context.height - 146,
         child: Column(
           children: [
             const Text(
@@ -31,28 +31,39 @@ class FavoriteScreen extends StatelessWidget {
                       return Container(
                         width: MediaQuery.of(context).size.width,
                         margin: const EdgeInsets.all(5),
-                        height: 75,
-                        child: InkWell(
-                          onTap: () {
-                            Get.to(() => ProductDetailScreen(
-                                product:
-                                    listLikeProduct.listLikeProducts[index]));
-                          },
-                          child: Row(
-                            children: [
-                              Image.network(
-                                listLikeProduct.listLikeProducts[index].image,
-                                height: 75,
-                                alignment: Alignment.center,
+                        child: Column(
+                          children: [
+                            InkWell(
+                              onTap: () {
+                                Get.to(() => ProductDetailScreen(
+                                    product: listLikeProduct
+                                        .listLikeProducts[index]));
+                              },
+                              child: Row(
+                                children: [
+                                  Image.network(
+                                    listLikeProduct
+                                        .listLikeProducts[index].image,
+                                    height: 75,
+                                    alignment: Alignment.center,
+                                  ),
+                                  Text(
+                                    listLikeProduct
+                                        .listLikeProducts[index].title,
+                                    style: TextStyle(
+                                        color: Colors.black, fontSize: 20),
+                                  ),
+                                ],
                               ),
-                              Text(
-                                listLikeProduct.listLikeProducts[index].title,
-                                style: TextStyle(
-                                    color: Colors.black, fontSize: 20),
-                              ),
-                              const Divider(),
-                            ],
-                          ),
+                            ),
+                            const Divider(
+                              color: Colors.black, //color of divider
+                              height: 1, //height spacing of divider
+                              thickness: 1, //thickness of divier line
+                              indent: 10, //spacing at the start of divider
+                              endIndent: 10, //spacing at the end of divider
+                            ),
+                          ],
                         ),
                       );
                     }),

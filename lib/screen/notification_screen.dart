@@ -12,43 +12,41 @@ class NotificationScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     controller.getOrderList();
-    return SingleChildScrollView(
-      child: Container(
-        width: MediaQuery.of(context).size.width,
-        height: 500,
-        child: Column(
-          children: [
-            const Text(
-              'Danh sách đơn đặt hàng hàng',
-              style: TextStyle(color: Colors.black, fontSize: 25),
-            ),
-            Expanded(
-              child: Obx(
-                () => ListView.builder(
-                    shrinkWrap: true,
-                    padding: const EdgeInsets.all(10),
-                    itemCount: controller.orderList.length,
-                    itemBuilder: (context, index) {
-                      List<order.Order> orderlist = controller.orderList;
-                      var bgcolor = Colors.white;
-                      if (index % 2 == 0)
-                        bgcolor = Colors.white;
-                      else
-                        bgcolor = Colors.black12;
-                      return InkWell(
-                        onTap: () {
-                          Get.to(OrderDetailScreen(
-                            order: orderlist[index],
-                            idOrder: orderlist[index].idOrder,
-                          ));
-                        },
-                        child: Container(
-                          color: bgcolor,
-                          width: MediaQuery.of(context).size.width,
-                          margin: const EdgeInsets.all(5),
-                          height: 185,
+    return SafeArea(
+      child: SingleChildScrollView(
+        child: Container(
+          width: MediaQuery.of(context).size.width,
+          height: context.height - 146,
+          child: Column(
+            children: [
+              const Text(
+                'Danh sách đơn đặt hàng',
+                style: TextStyle(color: Colors.black, fontSize: 25),
+              ),
+              Expanded(
+                child: Obx(
+                  () => ListView.builder(
+                      shrinkWrap: true,
+                      padding: const EdgeInsets.all(10),
+                      itemCount: controller.orderList.length,
+                      itemBuilder: (context, index) {
+                        List<order.Order> orderlist = controller.orderList;
+                        var bgcolor = Colors.white;
+                        if (index % 2 == 0)
+                          bgcolor = Colors.white;
+                        else
+                          bgcolor = Colors.black12;
+                        return InkWell(
+                          onTap: () {
+                            Get.to(OrderDetailScreen(
+                              order: orderlist[index],
+                              idOrder: orderlist[index].idOrder,
+                            ));
+                          },
                           child: Container(
-                            padding: const EdgeInsets.all(10),
+                            padding: EdgeInsets.only(top: 10, bottom: 10),
+                            color: bgcolor,
+                            margin: EdgeInsets.all(5),
                             child: Column(
                               children: [
                                 Text(
@@ -57,63 +55,91 @@ class NotificationScreen extends StatelessWidget {
                                       color: Colors.black, fontSize: 18),
                                   textAlign: TextAlign.center,
                                 ),
-                                const Text(
-                                  'Ngay đặt hàng',
-                                  style: TextStyle(
-                                      color: Colors.black, fontSize: 15),
-                                  textAlign: TextAlign.center,
+                                Row(
+                                  children: [
+                                    Padding(
+                                      padding: EdgeInsets.all(10),
+                                    ),
+                                    const Text(
+                                      'Ngay đặt hàng',
+                                      style: TextStyle(
+                                          color: Colors.black, fontSize: 15),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                    Text(
+                                      orderlist[index].createOnDate.toString(),
+                                      style: const TextStyle(
+                                          color: Colors.black, fontSize: 15),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  ],
                                 ),
-                                Text(
-                                  orderlist[index].createOnDate.toString(),
-                                  style: const TextStyle(
-                                      color: Colors.black, fontSize: 15),
-                                  textAlign: TextAlign.center,
+                                Row(
+                                  children: [
+                                    Padding(
+                                      padding: EdgeInsets.all(10),
+                                    ),
+                                    const Text(
+                                      'Trang thái',
+                                      style: TextStyle(
+                                          color: Colors.black, fontSize: 15),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                    Text(
+                                      orderlist[index].status,
+                                      style: const TextStyle(
+                                          color: Colors.black, fontSize: 15),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  ],
                                 ),
-                                const Text(
-                                  'Trang thái',
-                                  style: TextStyle(
-                                      color: Colors.black, fontSize: 15),
-                                  textAlign: TextAlign.center,
+                                Row(
+                                  children: [
+                                    Padding(
+                                      padding: EdgeInsets.all(10),
+                                    ),
+                                    const Text(
+                                      'Số lượng hàng',
+                                      style: TextStyle(
+                                          color: Colors.black, fontSize: 15),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                    Text(
+                                      orderlist[index].total.toString(),
+                                      style: const TextStyle(
+                                          color: Colors.black, fontSize: 15),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  ],
                                 ),
-                                Text(
-                                  orderlist[index].status,
-                                  style: const TextStyle(
-                                      color: Colors.black, fontSize: 15),
-                                  textAlign: TextAlign.center,
-                                ),
-                                const Text(
-                                  'Số lượng hàng',
-                                  style: TextStyle(
-                                      color: Colors.black, fontSize: 15),
-                                  textAlign: TextAlign.center,
-                                ),
-                                Text(
-                                  orderlist[index].total.toString(),
-                                  style: const TextStyle(
-                                      color: Colors.black, fontSize: 15),
-                                  textAlign: TextAlign.center,
-                                ),
-                                const Text(
-                                  'Tổng tiền',
-                                  style: TextStyle(
-                                      color: Colors.black, fontSize: 15),
-                                  textAlign: TextAlign.center,
-                                ),
-                                Text(
-                                  orderlist[index].money.toString(),
-                                  style: const TextStyle(
-                                      color: Colors.black, fontSize: 15),
-                                  textAlign: TextAlign.center,
+                                Row(
+                                  children: [
+                                    Padding(
+                                      padding: EdgeInsets.all(10),
+                                    ),
+                                    const Text(
+                                      'Tổng tiền',
+                                      style: TextStyle(
+                                          color: Colors.black, fontSize: 15),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                    Text(
+                                      orderlist[index].money.toString(),
+                                      style: const TextStyle(
+                                          color: Colors.black, fontSize: 15),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  ],
                                 ),
                               ],
                             ),
                           ),
-                        ),
-                      );
-                    }),
+                        );
+                      }),
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
