@@ -1,4 +1,6 @@
+import 'package:do_an_thuc_hanh_2/Controller/profile_controller.dart';
 import 'package:do_an_thuc_hanh_2/Controller/search_controller.dart';
+import 'package:do_an_thuc_hanh_2/model/product.dart';
 import 'package:do_an_thuc_hanh_2/screen/cart_screen.dart';
 import 'package:do_an_thuc_hanh_2/screen/favorite_screen.dart';
 import 'package:do_an_thuc_hanh_2/screen/home_screen.dart';
@@ -22,7 +24,7 @@ class _HomeState extends State<Home> {
     HomeScreen(),
     FavoriteScreen(),
     NotificationScreen(),
-    const ProfileScreen(),
+    ProfileScreen(),
   ];
   @override
   Widget build(BuildContext context) {
@@ -67,6 +69,7 @@ class _HomeState extends State<Home> {
       body: SafeArea(
         child: Container(
           width: MediaQuery.of(context).size.width,
+          height: context.height + 100,
           child: Column(
             children: [
               const SizedBox(
@@ -121,6 +124,8 @@ class HomeHeader extends StatefulWidget {
 }
 
 class _HomeHeaderState extends State<HomeHeader> {
+  ProfileController profileController = Get.put(ProfileController());
+
   @override
   Widget build(BuildContext context) {
     return Row(

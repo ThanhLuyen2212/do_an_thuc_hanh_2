@@ -34,7 +34,7 @@ class Cart {
 
   static void addProductToCart(Product product, int number) {
     for (int i = 0; i < cart.length; i++) {
-      if (cart[i].product == product) {
+      if (cart[i].product!.idProduct == product.idProduct) {
         cart[i].number++;
         return;
       }

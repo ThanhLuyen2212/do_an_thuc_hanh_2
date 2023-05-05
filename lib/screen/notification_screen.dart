@@ -38,15 +38,15 @@ class NotificationScreen extends StatelessWidget {
                           bgcolor = Colors.black12;
                         return InkWell(
                           onTap: () {
-                            Get.to(OrderDetailScreen(
-                              order: orderlist[index],
-                              idOrder: orderlist[index].idOrder,
-                            ));
+                            Get.to(() => OrderDetailScreen(
+                                  order: orderlist[index],
+                                  idOrder: orderlist[index].idOrder,
+                                ));
                           },
                           child: Container(
-                            padding: EdgeInsets.only(top: 10, bottom: 10),
+                            padding: const EdgeInsets.only(top: 10, bottom: 10),
                             color: bgcolor,
-                            margin: EdgeInsets.all(5),
+                            margin: const EdgeInsets.all(5),
                             child: Column(
                               children: [
                                 Text(
@@ -57,11 +57,11 @@ class NotificationScreen extends StatelessWidget {
                                 ),
                                 Row(
                                   children: [
-                                    Padding(
+                                    const Padding(
                                       padding: EdgeInsets.all(10),
                                     ),
                                     const Text(
-                                      'Ngay đặt hàng',
+                                      'Ngay đặt hàng: ',
                                       style: TextStyle(
                                           color: Colors.black, fontSize: 15),
                                       textAlign: TextAlign.center,
@@ -76,11 +76,11 @@ class NotificationScreen extends StatelessWidget {
                                 ),
                                 Row(
                                   children: [
-                                    Padding(
+                                    const Padding(
                                       padding: EdgeInsets.all(10),
                                     ),
                                     const Text(
-                                      'Trang thái',
+                                      'Trang thái: ',
                                       style: TextStyle(
                                           color: Colors.black, fontSize: 15),
                                       textAlign: TextAlign.center,
@@ -95,11 +95,11 @@ class NotificationScreen extends StatelessWidget {
                                 ),
                                 Row(
                                   children: [
-                                    Padding(
+                                    const Padding(
                                       padding: EdgeInsets.all(10),
                                     ),
                                     const Text(
-                                      'Số lượng hàng',
+                                      'Số lượng hàng: ',
                                       style: TextStyle(
                                           color: Colors.black, fontSize: 15),
                                       textAlign: TextAlign.center,
@@ -114,11 +114,11 @@ class NotificationScreen extends StatelessWidget {
                                 ),
                                 Row(
                                   children: [
-                                    Padding(
+                                    const Padding(
                                       padding: EdgeInsets.all(10),
                                     ),
                                     const Text(
-                                      'Tổng tiền',
+                                      'Tổng tiền: ',
                                       style: TextStyle(
                                           color: Colors.black, fontSize: 15),
                                       textAlign: TextAlign.center,

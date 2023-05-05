@@ -159,7 +159,7 @@ class ProductItem extends StatelessWidget {
         children: [
           InkWell(
             onTap: () {
-              Get.to(ProductDetailScreen(product: product));
+              Get.to(() => ProductDetailScreen(product: product));
             },
             child: Image.network(
               product.image,

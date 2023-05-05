@@ -47,6 +47,6 @@ class CheckoutController extends GetxController {
           .set(orderDetail.toJson());
     }
     Get.snackbar('Congratulation', 'Congratulation you have place your order');
-    Get.to(() => Home());
+    Get.to(() => const Home());
   }
 }

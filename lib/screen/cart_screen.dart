@@ -1,4 +1,5 @@
 import 'package:do_an_thuc_hanh_2/screen/checkout_screen.dart';
+import 'package:do_an_thuc_hanh_2/screen/home.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../model/cart.dart';
@@ -17,9 +18,16 @@ class CartScreen extends StatelessWidget {
           onTap: () {
             Navigator.pop(context);
           },
-          child: Icon(Icons.arrow_back_ios),
+          child: const Icon(Icons.arrow_back_ios),
         ),
-        title: Text('Cart Details'),
+        title: const Text('Cart Details'),
+        actions: <Widget>[
+          IconButton(
+              onPressed: () {
+                Get.to(() => const Home());
+              },
+              icon: const Icon(Icons.home))
+        ],
       ),
       body: BodyCart(
         product: product,
@@ -31,14 +39,15 @@ class CartScreen extends StatelessWidget {
 class BodyCart extends StatefulWidget {
   Product? product;
   BodyCart({super.key, this.product});
+
   @override
   State<BodyCart> createState() => _BodyCartState();
 }
 
 class _BodyCartState extends State<BodyCart> {
   List<inforCart> cartdetails = Cart().getCart();
-  late int sumMoney;
-  late int sumNumber;
+  int tongsoluong = Cart.sumNumber();
+  int tongtien = Cart.sumMoney();
 
   @override
   void initState() {
@@ -46,9 +55,30 @@ class _BodyCartState extends State<BodyCart> {
     if (widget.product != null) {
       Cart.addProductToCart(widget.product!, 1);
     }
-    sumMoney = Cart.sumMoney();
-    sumNumber = Cart.sumNumber();
+    tongsoluong = Cart.sumNumber();
+    tongtien = Cart.sumMoney();
   }
+
+  void updatetien(int tien) {
+    setState(() {
+      tongtien += tien;
+    });
+  }
+
+  void updatesoluong(int soluong) {
+    setState(() {
+      tongsoluong += soluong;
+    });
+  }
+
+  // void updatett(bool tt) {
+  //   if (tt) {
+  //     setState(() {
+  //       tongtien = Cart.sumMoney();
+  //       tongsoluong = Cart.sumNumber();
+  //     });
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -60,7 +90,7 @@ class _BodyCartState extends State<BodyCart> {
         ),
       );
     } else {
-      return Container(
+      return SizedBox(
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
         child: Column(
@@ -70,29 +100,94 @@ class _BodyCartState extends State<BodyCart> {
                   shrinkWrap: true,
                   itemCount: cartdetails.length,
                   itemBuilder: (context, index) {
-                    return Column(
-                      children: [
-                        GestureDetector(
-                          child: CartItem(
-                            product: cartdetails[index].product,
+                    return Container(
+                      margin: const EdgeInsets.only(top: 5, left: 5, right: 5),
+                      color: Colors.black12,
+                      child: Column(
+                        children: [
+                          Row(
+                            children: [
+                              Expanded(
+                                child: GestureDetector(
+                                  child: CartItem(
+                                      product: cartdetails[index].product,
+                                      index: index,
+                                      tttien: updatetien,
+                                      ttsoluong: updatesoluong),
+                                ),
+                              ),
+                              InkWell(
+                                onTap: () {
+                                  setState(() {
+                                    Cart.removeProduct(
+                                        cartdetails[index].product!);
+                                    tongsoluong = Cart.sumNumber();
+                                    tongtien = Cart.sumMoney();
+                                  });
+                                },
+                                child: Container(
+                                  margin: const EdgeInsets.only(right: 15),
+                                  child: const Icon(
+                                    Icons.delete_outline,
+                                    color: Colors.black,
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
-                          onTap: () {
-                            setState(() {
-                              // cartdetails.removeAt(index);
-                              Cart.removeProduct(cartdetails[index].product!);
-
-                              // giá sản phẩm
-                              sumMoney = Cart.sumMoney();
-                              sumNumber = Cart.sumNumber();
-                            });
-                          },
-                        ),
-                        const Divider(),
-                      ],
+                          const Divider(),
+                        ],
+                      ),
                     );
                   }),
             ),
-            CheckOutButton(sumNumber: sumNumber, sumMoney: sumMoney)
+            Container(
+              padding: const EdgeInsets.all(10),
+              color: Colors.green,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Row(
+                    children: [
+                      const Text(
+                        'Tổng số lượng     ',
+                        style: TextStyle(color: Colors.white, fontSize: 18),
+                        textAlign: TextAlign.center,
+                      ),
+                      Text(
+                        tongsoluong.toString(),
+                        style:
+                            const TextStyle(color: Colors.white, fontSize: 18),
+                        textAlign: TextAlign.center,
+                      ),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Row(
+                    children: [
+                      const Text(
+                        'Tổng tiền           ',
+                        style: TextStyle(color: Colors.white, fontSize: 18),
+                        textAlign: TextAlign.center,
+                      ),
+                      Text(
+                        tongtien.toString(),
+                        style:
+                            const TextStyle(color: Colors.white, fontSize: 18),
+                        textAlign: TextAlign.center,
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            const CheckOutButton(),
           ],
         ),
       );
@@ -101,8 +196,17 @@ class _BodyCartState extends State<BodyCart> {
 }
 
 class CartItem extends StatefulWidget {
+  // final ValueChanged<bool, Product> update;
+  ValueChanged<int> tttien;
+  ValueChanged<int> ttsoluong;
   Product? product;
-  CartItem({super.key, this.product});
+  int index;
+  CartItem(
+      {super.key,
+      this.product,
+      required this.index,
+      required this.tttien,
+      required this.ttsoluong});
 
   @override
   State<CartItem> createState() => _CartItemState();
@@ -117,7 +221,8 @@ class _CartItemState extends State<CartItem> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    soluong = 1;
+    List<inforCart> cart = Cart().getCart();
+    soluong = cart[widget.index].number;
 
     Product? product = widget.product;
     giatien = product!.price;
@@ -127,8 +232,7 @@ class _CartItemState extends State<CartItem> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(top: 5, left: 5, right: 5),
-      color: Colors.black12,
+      margin: const EdgeInsets.only(top: 5, left: 5, right: 5),
       padding: const EdgeInsets.all(16),
       child: Row(children: [
         SizedBox(
@@ -136,13 +240,13 @@ class _CartItemState extends State<CartItem> {
           height: 100,
           child: Image.network(widget.product!.image),
         ),
-        SizedBox(
+        const SizedBox(
           width: 10,
         ),
         Expanded(
             child: Text(
           widget.product!.title,
-          style: TextStyle(color: Colors.black, fontSize: 18),
+          style: const TextStyle(color: Colors.black, fontSize: 18),
         )),
         Expanded(
             child: Column(
@@ -154,35 +258,41 @@ class _CartItemState extends State<CartItem> {
                 InkWell(
                   onTap: (() {
                     setState(() {
+                      widget.ttsoluong(1);
+                      widget.tttien(giatien);
                       soluong++;
                       tongtien = soluong * giatien;
+                      Cart.cart[widget.index].number = soluong;
                     });
                   }),
-                  child: Icon(
+                  child: const Icon(
                     Icons.add,
                     color: Colors.green,
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   width: 5,
                 ),
                 Text(
                   soluong.toString(),
-                  style: TextStyle(color: Colors.black, fontSize: 18),
+                  style: const TextStyle(color: Colors.black, fontSize: 18),
                 ),
-                SizedBox(
+                const SizedBox(
                   width: 5,
                 ),
                 InkWell(
                   onTap: (() {
                     setState(() {
                       if (soluong > 1) {
+                        widget.ttsoluong(-1);
+                        widget.tttien(-giatien);
                         soluong--;
                         tongtien = soluong * giatien;
+                        Cart.cart[widget.index].number = soluong;
                       }
                     });
                   }),
-                  child: Icon(
+                  child: const Icon(
                     Icons.remove,
                     color: Colors.green,
                   ),
@@ -195,23 +305,17 @@ class _CartItemState extends State<CartItem> {
             Text(
               // widget.product!.price.toString(),
               tongtien.toString(),
-              style: TextStyle(color: Colors.black, fontSize: 18),
+              style: const TextStyle(color: Colors.black, fontSize: 18),
             )
           ],
         )),
-        Icon(
-          Icons.delete_outline,
-          color: Colors.black,
-        ),
       ]),
     );
   }
 }
 
 class CheckOutButton extends StatelessWidget {
-  int sumMoney;
-  int sumNumber;
-  CheckOutButton({required this.sumNumber, required this.sumMoney});
+  const CheckOutButton({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -221,23 +325,7 @@ class CheckOutButton extends StatelessWidget {
         Expanded(
           child: ElevatedButton(
             style: ElevatedButton.styleFrom(
-                primary: Colors.lightGreen, padding: const EdgeInsets.all(10)),
-            onPressed: () {},
-            child: Text(
-              "Sum:${sumMoney},   \n Money:${sumNumber}",
-              style: TextStyle(
-                fontSize: 18.0,
-              ),
-            ),
-          ),
-        ),
-        SizedBox(
-          width: 5,
-        ),
-        Expanded(
-          child: ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              padding: EdgeInsets.all(23),
+              padding: const EdgeInsets.all(23),
               primary: Colors.lightGreen,
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(0.0),
@@ -248,7 +336,7 @@ class CheckOutButton extends StatelessWidget {
               Get.to(() => CheckoutScreen());
             },
             child: Text("Check out".toUpperCase(),
-                style: TextStyle(fontSize: 14, color: Colors.white)),
+                style: const TextStyle(fontSize: 20, color: Colors.white)),
           ),
         )
       ],
